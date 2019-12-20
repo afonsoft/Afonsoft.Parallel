@@ -1,5 +1,9 @@
 version: 1.0.{build}
 image: Previous Visual Studio 2019
+configuration: Release
+platform:
+- x86
+- x64
 pull_requests:
   do_not_increment_build_number: true
 environment:
@@ -9,6 +13,8 @@ nuget:
   account_feed: true
   project_feed: true
   disable_publish_on_pr: true
+before_build:
+- cmd: nuget.exe restore -verbosity detailed C:\projects\afonsoft-Parallel\Parallel.sln
 assembly_info:
   patch: true
   file: '**\AssemblyInfo.*'
@@ -31,4 +37,4 @@ build:
   include_nuget_references: true
   publish_aspnet_core: true
   publish_core_console: true
-  verbosity: detailed
+  verbosity: normal
