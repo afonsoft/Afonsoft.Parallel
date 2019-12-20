@@ -1,0 +1,19 @@
+language: csharp
+sudo: required  
+dist: xenial  
+mono: latest
+dotnet: 2.2.203
+env:
+  global:
+    - ResolveNuGetPackageAssets=true
+    - EnableNuGetPackageRestore=true
+    - DOTNET_SKIP_FIRST_TIME_EXPERIENCE=true
+    - DOTNET_CLI_TELEMETRY_OPTOUT=1
+os:
+  - linux
+  - osx
+solution: Parallel.sln
+install:
+  - dotnet restore
+script:
+  - dotnet build Parallel.sln -f netstandard2.0
