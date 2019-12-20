@@ -1,9 +1,8 @@
-using Afonsoft.Parallel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Threading;
 
-namespace Afonsoft.Framework.UnitTest
+namespace Afonsoft.Parallel.UnitTest
 {
     [TestClass]
     public class ParallelTest
