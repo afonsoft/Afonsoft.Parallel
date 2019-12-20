@@ -2,7 +2,7 @@ language: csharp
 sudo: required  
 dist: xenial  
 mono: latest
-dotnet: 2.2.203
+dotnet: 3.1.100
 env:
   global:
     - ResolveNuGetPackageAssets=true
@@ -13,7 +13,3 @@ os:
   - linux
   - osx
 solution: Parallel.sln
-install:
-  - dotnet restore
-script:
-  - dotnet build Parallel.sln -f netstandard2.0
