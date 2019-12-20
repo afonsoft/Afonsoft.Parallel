@@ -1,0 +1,34 @@
+version: 1.0.{build}
+image: Previous Visual Studio 2019
+pull_requests:
+  do_not_increment_build_number: true
+environment:
+  EnableNuGetPackageRestore: true
+  ResolveNuGetPackageAssets: true
+nuget:
+  account_feed: true
+  project_feed: true
+  disable_publish_on_pr: true
+assembly_info:
+  patch: true
+  file: '**\AssemblyInfo.*'
+  assembly_version: '{version}'
+  assembly_file_version: '{version}'
+  assembly_informational_version: '{version}'
+dotnet_csproj:
+  patch: true
+  file: '**\*.csproj'
+  version: '{version}'
+  version_prefix: '{version}'
+  package_version: '{version}'
+  assembly_version: '{version}'
+  file_version: '{version}'
+  informational_version: '{version}'
+build:
+  publish_nuget: true
+  publish_nuget_symbols: true
+  use_snupkg_format: true
+  include_nuget_references: true
+  publish_aspnet_core: true
+  publish_core_console: true
+  verbosity: detailed
