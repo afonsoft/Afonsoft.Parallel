@@ -1,4 +1,4 @@
-﻿using Afonsoft.Framework.Logger;
+﻿using Afonsoft.Parallel.Logger;
 using System;
 using System.Collections.Generic;
 using System.Threading;
@@ -186,7 +186,8 @@ namespace Afonsoft.Parallel
         public void WaitForOperationQueueCompletion()
         {
             foreach (WaitHandle[] waitHandles in this.pool.WorkersIdleSignal)
-                WaitHandle.WaitAll(waitHandles);
+                foreach (WaitHandle waitHandle in waitHandles)
+                    waitHandle.WaitOne();
         }
 
         private void PumpOperation()

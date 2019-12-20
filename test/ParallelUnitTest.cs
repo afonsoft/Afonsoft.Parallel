@@ -1,11 +1,11 @@
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
+﻿using System;
 using System.Threading;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Afonsoft.Parallel.UnitTest
 {
     [TestClass]
-    public class ParallelTest
+    public class ParallelUnitTest
     {
         [TestMethod]
         public void QueueTestMethod()

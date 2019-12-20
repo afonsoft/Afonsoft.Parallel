@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Afonsoft.Framework.Logger
+namespace Afonsoft.Parallel.Logger
 {
     public enum LogLevel
     {

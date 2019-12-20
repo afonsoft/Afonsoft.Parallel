@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Afonsoft.Framework.Logger
+namespace Afonsoft.Parallel.Logger
 {
     public class LoggerEventArgs : EventArgs
     {

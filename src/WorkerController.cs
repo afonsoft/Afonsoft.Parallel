@@ -1,4 +1,4 @@
-﻿using Afonsoft.Framework.Logger;
+﻿using Afonsoft.Parallel.Logger;
 using System;
 using System.Threading;
 

@@ -1,7 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;net35;net40;net45;net461;net47;netcoreapp2.2;netcoreapp2.1</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;net35;net40;net45;net46;net47;netcoreapp2.2;netcoreapp2.1</TargetFrameworks>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>Afonso Dutra Nogueira Filho</Authors>
     <Company>Afonsoft</Company>
@@ -17,7 +16,6 @@
     <Description>Ferramenta para processos paralelo</Description>
     <PackageReleaseNotes>Ferramenta para processos paralelo</PackageReleaseNotes>
   </PropertyGroup>
-
   <PropertyGroup Condition=" '$(TargetFramework)' == 'net35'">
     <DefineConstants>NET</DefineConstants>
   </PropertyGroup>
@@ -27,7 +25,7 @@
   <PropertyGroup Condition=" '$(TargetFramework)' == 'net45'">
     <DefineConstants>NET;NETFULL</DefineConstants>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'net461'">
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'net46'">
     <DefineConstants>NET;NETFULL</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(TargetFramework)' == 'net47'">
@@ -42,5 +40,4 @@
   <PropertyGroup Condition=" '$(TargetFramework)' == 'netcoreapp2.1'">
     <DefineConstants>NETCORE;NETSTANDARD;</DefineConstants>
   </PropertyGroup>
-
 </Project>
