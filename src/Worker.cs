@@ -22,4 +22,30 @@
             }
         }
     }
+
+    /// <summary>
+    /// Classe para o funcionamento do Workers (Processos)
+    /// </summary>
+    public abstract class Worker : Worker<string>
+    {
+        
+    }
+
+    internal class FakeWorker : Worker
+    {
+        public override void Initialize()
+        {
+            
+        }
+
+        public override void Task()
+        {
+            
+        }
+
+        public override void Terminate()
+        {
+            
+        }
+    }
 }

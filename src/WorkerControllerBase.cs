@@ -35,9 +35,9 @@ namespace Afonsoft.Parallel
         {
             this.controllerWaitObjects = new WaitHandle[3]
             {
-        (WaitHandle) this.PoolStopSignal,
-        (WaitHandle) this.ManualStopSignal,
-        (WaitHandle) this.ManualStartSignal
+                (WaitHandle) this.PoolStopSignal,
+                (WaitHandle) this.ManualStopSignal,
+                (WaitHandle) this.ManualStartSignal
             };
             this.ts = new ThreadStart(this.TaskCapsule);
             this.threadTask = new Thread(this.ts);

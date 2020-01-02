@@ -25,7 +25,7 @@ namespace Afonsoft.Parallel
         }
 
         public WorkerPool(
-          EventHandler<TaskEventArgs> taskNotificationHandler, int maxNumberOfWorkers)
+          EventHandler<TaskEventArgs> taskNotificationHandler, int maxNumberOfWorkers, EventHandler<LoggerEventArgs> logger)
         {
             this.workers = new Dictionary<string, WorkerControllerBase>(maxNumberOfWorkers);
             this.workerCompleteSignals = new List<WaitHandle>(maxNumberOfWorkers);
@@ -33,6 +33,7 @@ namespace Afonsoft.Parallel
             this.poolStopSignal = new ManualResetEvent(false);
             this.poolAbortSignal = new ManualResetEvent(false);
             this.TaskNotificationHandler = taskNotificationHandler;
+            this.Logger = logger;
 
             this.monitorThread = new Thread(new ThreadStart(this.WorkersMonitor));
             this.monitorThread.IsBackground = true;
@@ -41,7 +42,11 @@ namespace Afonsoft.Parallel
         }
 
         public WorkerPool(int maxNumberOfWorkers)
-          : this((EventHandler<TaskEventArgs>)null, maxNumberOfWorkers)
+          : this((EventHandler<TaskEventArgs>)null, maxNumberOfWorkers, (EventHandler<LoggerEventArgs>)null)
+        {
+        }
+        public WorkerPool(int maxNumberOfWorkers, EventHandler<LoggerEventArgs> logger)
+          : this((EventHandler<TaskEventArgs>)null, maxNumberOfWorkers, logger)
         {
         }
 
@@ -81,7 +86,8 @@ namespace Afonsoft.Parallel
                     foreach (WorkerControllerBase workerControllerBase in this.workers.Values.ToArray<WorkerControllerBase>())
                         workerControllerBase.Stop();
                     foreach (WaitHandle[] waitHandles in this.WorkersIdleSignal)
-                        WaitHandle.WaitAll(waitHandles);
+                        foreach (WaitHandle waitHandle in waitHandles)
+                            waitHandle.WaitOne();
                     this.Stop();
                 }
                 else
@@ -111,13 +117,13 @@ namespace Afonsoft.Parallel
         {
             get
             {
-                List<WaitHandle[]> waitHandleArrayList = new List<WaitHandle[]>(10);
+                List<WaitHandle[]> waitHandleArrayList = new List<WaitHandle[]>(64);
                 List<WaitHandle> waitHandleList = new List<WaitHandle>(this.workers.Values.Count);
                 int num = 0;
                 foreach (WorkerControllerBase workerControllerBase in this.workers.Values)
                 {
                     waitHandleList.Add((WaitHandle)workerControllerBase.WorkerIdleSignal);
-                    if (++num % 64 == 0)
+                    if (++num % 16 == 0)
                     {
                         waitHandleArrayList.Add(waitHandleList.ToArray());
                         waitHandleList = new List<WaitHandle>();
@@ -157,10 +163,11 @@ namespace Afonsoft.Parallel
             if (null != this.TaskNotificationHandler)
                 this.workers[correlationState].TaskError += this.TaskNotificationHandler;
             
-            this.workers[correlationState].Worker.CorrelationState = correlationState;
             if (null != (object)context)
                 ((Worker<T>)this.workers[correlationState].Worker).Context = context;
             this.workers[correlationState].PoolStopSignal = this.poolStopSignal;
+
+            this.workers[correlationState].Worker.CorrelationState = correlationState;
         }
 
         internal void DeleteWorker(string correlationState)
