@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net35;net40;net45;net46;net47;netcoreapp2.2;netcoreapp2.1</TargetFrameworks>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
@@ -7,10 +7,10 @@
     <Copyright>AFONSOFT</Copyright>
     <PackageProjectUrl>https://www.afonsoft.com.br</PackageProjectUrl>
     <RepositoryUrl>https://github.com/afonsoft/Afonsoft.Parallel</RepositoryUrl>
-    <AssemblyVersion>2019.01.02</AssemblyVersion>
-    <FileVersion>2019.01.02</FileVersion>
+    <AssemblyVersion>2020.01.02</AssemblyVersion>
+    <FileVersion>2020.01.02</FileVersion>
     <RepositoryType>git</RepositoryType>
-    <Version>2019.12.20</Version>
+    <Version>2020.01.02</Version>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageTags>afonsoft Parallel Paralelo Queue Fila Process Tool</PackageTags>
     <Description>Ferramenta para processos paralelo, Parallel Process Tool</Description>
