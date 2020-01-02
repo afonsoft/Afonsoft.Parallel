@@ -7,14 +7,16 @@
     <Copyright>AFONSOFT</Copyright>
     <PackageProjectUrl>https://www.afonsoft.com.br</PackageProjectUrl>
     <RepositoryUrl>https://github.com/afonsoft/Afonsoft.Parallel</RepositoryUrl>
-    <AssemblyVersion>2019.12.20</AssemblyVersion>
-    <FileVersion>2019.12.20</FileVersion>
+    <AssemblyVersion>2019.01.02</AssemblyVersion>
+    <FileVersion>2019.01.02</FileVersion>
     <RepositoryType>git</RepositoryType>
     <Version>2019.12.20</Version>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
-    <PackageTags>afonsoft Parallel Paralelo Queue Fila</PackageTags>
-    <Description>Ferramenta para processos paralelo</Description>
-    <PackageReleaseNotes>Ferramenta para processos paralelo</PackageReleaseNotes>
+    <PackageTags>afonsoft Parallel Paralelo Queue Fila Process Tool</PackageTags>
+    <Description>Ferramenta para processos paralelo, Parallel Process Tool</Description>
+    <PackageReleaseNotes>Ferramenta para processos paralelo, Parallel Process Tool</PackageReleaseNotes>
+    <PackageIcon>queue_48px.png</PackageIcon>
+    <PackageIconUrl />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(TargetFramework)' == 'net35'">
     <DefineConstants>NET</DefineConstants>
@@ -40,4 +42,10 @@
   <PropertyGroup Condition=" '$(TargetFramework)' == 'netcoreapp2.1'">
     <DefineConstants>NETCORE;NETSTANDARD;</DefineConstants>
   </PropertyGroup>
+  <ItemGroup>
+    <None Include="queue_48px.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
 </Project>

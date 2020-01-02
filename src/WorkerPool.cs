@@ -140,18 +140,23 @@ namespace Afonsoft.Parallel
         {
             WriteTraceRecord(LogLevel.Info, string.Format("WorkerPool::AddWorker -> CorrelationState:{0}, Context:{1}", (object)correlationState, (object)context == null ? (object)"<null>" : (object)context.ToString()));
             this.workers.Add(correlationState, workerController);
+            
             this.workers[correlationState].TaskStarted += new EventHandler<TaskEventArgs>(this.WorkerController_TaskStarted);
             if (null != this.TaskNotificationHandler)
                 this.workers[correlationState].TaskStarted += this.TaskNotificationHandler;
+            
             this.workers[correlationState].TaskCompleted += new EventHandler<TaskEventArgs>(this.WorkerController_TaskCompleted);
             if (null != this.TaskNotificationHandler)
                 this.workers[correlationState].TaskCompleted += this.TaskNotificationHandler;
+            
             this.workers[correlationState].TaskStopped += new EventHandler<TaskEventArgs>(this.WorkerController_TaskStopped);
             if (null != this.TaskNotificationHandler)
                 this.workers[correlationState].TaskStopped += this.TaskNotificationHandler;
+            
             this.workers[correlationState].TaskError += new EventHandler<TaskEventArgs>(this.WorkerPool_TaskError);
             if (null != this.TaskNotificationHandler)
                 this.workers[correlationState].TaskError += this.TaskNotificationHandler;
+            
             this.workers[correlationState].Worker.CorrelationState = correlationState;
             if (null != (object)context)
                 ((Worker<T>)this.workers[correlationState].Worker).Context = context;

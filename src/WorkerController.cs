@@ -56,6 +56,7 @@ namespace Afonsoft.Parallel
                     {
                         try
                         {
+                            this.InvokeTaskError(new TaskEventArgs(this.worker.CorrelationState, this.worker.InternalContext, TaskNotification.WorkerError, this.worker.LastStartTimestamp, this.worker.LastCompletionTimestamp, ex1));
                             WriteTraceRecord(LogLevel.Error, string.Format("WorkerController::WorkerError -> Correlation:{0}, Task Exception:{1}, Starting gracefully termination request.", (object)this.worker.CorrelationState, (object)ex1.ToString()));
                             this.worker.State = WorkerState.Finishing;
                             WriteTraceRecord(LogLevel.Info, string.Format("WorkerController::Begin Terminate -> Correlation:{0}", (object)this.worker.CorrelationState));
@@ -65,6 +66,7 @@ namespace Afonsoft.Parallel
                         }
                         catch (Exception ex2)
                         {
+                            this.InvokeTaskError(new TaskEventArgs(this.worker.CorrelationState, this.worker.InternalContext, TaskNotification.WorkerError, this.worker.LastStartTimestamp, this.worker.LastCompletionTimestamp, ex2));
                             WriteTraceRecord(LogLevel.Error, string.Format("WorkerController::WorkerError -> Correlation:{0}, gracefully termination attempt has an error {1}", (object)this.worker.CorrelationState, (object)ex2.ToString()));
                         }
                         this.worker.LastCompletionTimestamp = TimeSpan.FromTicks(DateTime.Now.Ticks);
