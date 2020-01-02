@@ -77,17 +77,23 @@ namespace Afonsoft.Parallel
         public int MaxNumberOfWorkers { get; internal set; }
 
         /// <summary>
-        /// Reset Event
+        /// Reset Event where not have more contextQueue
         /// </summary>
         public ManualResetEvent QueueEmptySignal { get; internal set; }
+
+        /// <summary>
+        /// Reset Event where not have more roundRobinQueue
+        /// </summary>
+        public ManualResetEvent FinishedSignal { get; internal set; }
 
         private void Initialize()
         {
             this.SuggestedNumberOfWorkers = Environment.ProcessorCount;
             this.QueueEmptySignal = new ManualResetEvent(true);
+            this.FinishedSignal = new ManualResetEvent(false);
             this.pool = new WorkerPool(new EventHandler<TaskEventArgs>(this.WorkerPool_Pump), MaxNumberOfWorkers, new EventHandler<LoggerEventArgs>(this.EventLogger));
             this.contextQueue = new Queue<TContext>(1024);
-            this.roundRobinQueue = new Queue<string>(128);
+            this.roundRobinQueue = new Queue<string>(256);
             for (int index = 0; index < this.MaxNumberOfWorkers; ++index)
             {
                 this.pool.AddWorker(index.ToString(), (WorkerControllerBase)new WorkerController<TWorker>(new EventHandler<LoggerEventArgs>(this.EventLogger)));
@@ -127,6 +133,7 @@ namespace Afonsoft.Parallel
         public void Start()
         {
             this.pool.Start();
+            this.FinishedSignal.Reset();
             this.isQueueStopping = false;
             this.isQueueStarted = true;
             while (this.roundRobinQueue.Count > 0 && this.contextQueue.Count > 0)
@@ -183,9 +190,13 @@ namespace Afonsoft.Parallel
         public void WaitForOperationQueueCompletion()
         {
             this.QueueEmptySignal.WaitOne();
+            this.FinishedSignal.WaitOne();
             foreach (WaitHandle[] waitHandles in this.pool.WorkersIdleSignal)
                 foreach (WaitHandle waitHandle in waitHandles)
                     waitHandle.WaitOne();
+
+            this.isQueueStopping = false;
+            this.isQueueStarted = false;
         }
 
         private void PumpOperation()
@@ -235,6 +246,10 @@ namespace Afonsoft.Parallel
                     WriteTraceRecord(LogLevel.Info, "OperationQueue::PumpOperation() - Round Robin Queue is Empty");
                 else if (!this.isQueueStarted)
                     WriteTraceRecord(LogLevel.Info, "OperationQueue::PumpOperation() - The Operation Pump is not enabled.");
+
+                if (this.contextQueue.Count == 0 && this.roundRobinQueue.Count == MaxNumberOfWorkers)
+                    this.FinishedSignal.Set();
+
             }
         }
 
@@ -394,19 +409,24 @@ namespace Afonsoft.Parallel
         /// Maximo de processos paralelos
         /// </summary>
         public int MaxNumberOfWorkers { get; internal set; }
-
         /// <summary>
-        /// Reset Event
+        /// Reset Event where not have more contextQueue
         /// </summary>
         public ManualResetEvent QueueEmptySignal { get; internal set; }
+
+        /// <summary>
+        /// Reset Event where not have more roundRobinQueue
+        /// </summary>
+        public ManualResetEvent FinishedSignal { get; internal set; }
 
         private void Initialize()
         {
             this.SuggestedNumberOfWorkers = Environment.ProcessorCount;
             this.QueueEmptySignal = new ManualResetEvent(true);
+            this.FinishedSignal = new ManualResetEvent(false);
             this.pool = new WorkerPool(new EventHandler<TaskEventArgs>(this.WorkerPool_Pump), MaxNumberOfWorkers, new EventHandler<LoggerEventArgs>(this.EventLogger));
             this.contextQueue = new Queue<Worker>(1024);
-            this.roundRobinQueue = new Queue<string>(128);
+            this.roundRobinQueue = new Queue<string>(256);
             for (int index = 0; index < this.MaxNumberOfWorkers; ++index)
             {
                 this.pool.AddWorker(index.ToString(), (WorkerControllerBase)new WorkerController(new EventHandler<LoggerEventArgs>(this.EventLogger)));
@@ -446,6 +466,7 @@ namespace Afonsoft.Parallel
         public void Start()
         {
             this.pool.Start();
+            this.FinishedSignal.Reset();
             this.isQueueStopping = false;
             this.isQueueStarted = true;
             while (this.roundRobinQueue.Count > 0 && this.contextQueue.Count > 0)
@@ -501,10 +522,14 @@ namespace Afonsoft.Parallel
         /// </summary>
         public void WaitForOperationQueueCompletion()
         {
-            QueueEmptySignal.WaitOne();
+            this.QueueEmptySignal.WaitOne();
+            this.FinishedSignal.WaitOne();
             foreach (WaitHandle[] waitHandles in this.pool.WorkersIdleSignal)
                 foreach (WaitHandle waitHandle in waitHandles)
                     waitHandle.WaitOne();
+
+            this.isQueueStopping = false;
+            this.isQueueStarted = false;
         }
 
         private void PumpOperation()
@@ -555,6 +580,10 @@ namespace Afonsoft.Parallel
                     WriteTraceRecord(LogLevel.Info, "OperationQueue::PumpOperation() - Round Robin Queue is Empty");
                 else if (!this.isQueueStarted)
                     WriteTraceRecord(LogLevel.Info, "OperationQueue::PumpOperation() - The Operation Pump is not enabled.");
+
+                if (this.contextQueue.Count == 0 && this.roundRobinQueue.Count == MaxNumberOfWorkers)
+                    this.FinishedSignal.Set();
+
             }
         }
 

@@ -111,7 +111,6 @@ namespace Afonsoft.Parallel
         public void Abort()
         {
             this.poolAbortSignal.Set();
-            this.monitorThread.Join();
         }
         public List<WaitHandle[]> WorkersIdleSignal
         {

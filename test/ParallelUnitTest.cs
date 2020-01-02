@@ -10,7 +10,7 @@ namespace Afonsoft.Parallel.UnitTest
         [TestMethod]
         public void QueueTestWithContextMethod()
         {
-            var operationQueue = new OperationQueue<WorkerWithContextTest, WorkerContextTest>("TestQuerue", 8);
+            var operationQueue = new OperationQueue<WorkerWithContextTest, WorkerContextTest>("TestQuerue", 16);
             operationQueue.Logger += (s, e) =>
             {
                 Console.WriteLine($"{e.LogLevel} - {e.Description}");
@@ -19,7 +19,7 @@ namespace Afonsoft.Parallel.UnitTest
             operationQueue.TaskCompleted += (s, e) => { Console.WriteLine($"TaskCompleted - {e.CompletionTimestamp} - {e.Context.ToString()}"); };
             operationQueue.WorkerError += (s, e) => { Console.WriteLine($"WorkerError - {e.TaskException} - {e.Context.ToString()}"); };
 
-            for (int i = 0; i <= 100; ++i)
+            for (int i = 0; i <= 500; ++i)
                 operationQueue.Enqueue(new WorkerContextTest() { Index = i.ToString() });
 
             operationQueue.Start();
@@ -31,7 +31,7 @@ namespace Afonsoft.Parallel.UnitTest
         [TestMethod]
         public void QueueTestWithNotContextMethod()
         {
-            var operationQueue = new OperationQueue("TestQuerue", 8);
+            var operationQueue = new OperationQueue("TestQuerueNoContext", 16);
             operationQueue.Logger += (s, e) =>
             {
                 Console.WriteLine($"{e.LogLevel} - {e.Description}");
@@ -40,7 +40,7 @@ namespace Afonsoft.Parallel.UnitTest
             operationQueue.TaskCompleted += (s, e) => { Console.WriteLine($"TaskCompleted - {e.CompletionTimestamp} - {e.Context.ToString()}"); };
             operationQueue.WorkerError += (s, e) => { Console.WriteLine($"WorkerError - {e.TaskException} - {e.Context.ToString()}"); };
 
-            for (int i = 0; i <= 100; ++i)
+            for (int i = 0; i <= 500; ++i)
                 operationQueue.Enqueue(new WorkerWithNotContextTest());
 
             operationQueue.Start();
@@ -55,7 +55,7 @@ namespace Afonsoft.Parallel.UnitTest
 
         public override void Initialize()
         {
-            Console.WriteLine($"Initialize"); 
+            Console.WriteLine($"{this.Context} - Initialize");
         }
 
         public override void Task()
@@ -65,7 +65,7 @@ namespace Afonsoft.Parallel.UnitTest
 
         public override void Terminate()
         {
-            Console.WriteLine($"Terminate");
+            Console.WriteLine($"{this.Context} - Terminate");
         }
     }
     public class WorkerWithContextTest : Worker<WorkerContextTest>
