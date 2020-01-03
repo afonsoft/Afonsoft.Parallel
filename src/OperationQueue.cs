@@ -8,7 +8,7 @@ namespace Afonsoft.Parallel
     /// <summary>
     /// Gerenciamento de Workers paralelo com Fila de controle
     /// </summary>
-    /// <typeparam name="TWorker">Classe que implementa : Worker<TContext></typeparam>
+    /// <typeparam name="TWorker">Classe que implementa : Worker<TContext>, a classe que efetua o processo</typeparam>
     /// <typeparam name="TContext">Classe que será os parametros para a Worker</typeparam>
     public class OperationQueue<TWorker, TContext> where TWorker : Worker<TContext>, new()
     {

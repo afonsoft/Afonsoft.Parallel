@@ -10,7 +10,7 @@ namespace Afonsoft.Parallel.UnitTest
         [TestMethod]
         public void QueueTestWithContextMethod()
         {
-            var operationQueue = new OperationQueue<WorkerWithContextTest, WorkerContextTest>("TestQuerue", 16);
+            var operationQueue = new OperationQueue<WorkerWithContextTest, WorkerContextTest>("TestQuerue", 8);
             operationQueue.Logger += (s, e) =>
             {
                 Console.WriteLine($"{e.LogLevel} - {e.Description}");
@@ -31,7 +31,7 @@ namespace Afonsoft.Parallel.UnitTest
         [TestMethod]
         public void QueueTestWithNotContextMethod()
         {
-            var operationQueue = new OperationQueue("TestQuerueNoContext", 16);
+            var operationQueue = new OperationQueue("TestQuerueNoContext", 8);
             operationQueue.Logger += (s, e) =>
             {
                 Console.WriteLine($"{e.LogLevel} - {e.Description}");
@@ -60,7 +60,7 @@ namespace Afonsoft.Parallel.UnitTest
 
         public override void Task()
         {
-            Thread.Sleep(new Random().Next(1000, 5000));
+            Thread.Sleep(new Random().Next(5000, 10000));
         }
 
         public override void Terminate()
@@ -77,7 +77,7 @@ namespace Afonsoft.Parallel.UnitTest
 
         public override void Task()
         {
-            Thread.Sleep(new Random().Next(1000, 5000));
+            Thread.Sleep(new Random().Next(5000, 10000));
         }
 
         public override void Terminate()
