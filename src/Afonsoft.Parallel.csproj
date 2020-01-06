@@ -7,10 +7,10 @@
     <Copyright>AFONSOFT</Copyright>
     <PackageProjectUrl>https://www.afonsoft.com.br</PackageProjectUrl>
     <RepositoryUrl>https://github.com/afonsoft/Afonsoft.Parallel</RepositoryUrl>
-    <AssemblyVersion>2020.01.03</AssemblyVersion>
-    <FileVersion>2020.01.03</FileVersion>
+    <AssemblyVersion>2020.01.06</AssemblyVersion>
+    <FileVersion>2020.01.06</FileVersion>
     <RepositoryType>git</RepositoryType>
-    <Version>2020.01.03</Version>
+    <Version>2020.01.06</Version>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageTags>afonsoft Parallel Paralelo Queue Fila Process Tool</PackageTags>
     <Description>Ferramenta para processos paralelo, Parallel Process Tool</Description>
